@@ -2,7 +2,6 @@ import { useFieldArray, useForm } from "react-hook-form"
 import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { RHFDatePickerField } from "../FormFields/RHFDatePicker/RHFDatePicker"
-import { RHFCheckbox } from "../FormFields/RHFCheckbox/RHFCheckbox"
 
 const schema = z.object({
     roles: z.array(
@@ -70,14 +69,10 @@ export const JobApplicationPastExperienceForm = (props: JobApplicationPastExperi
         name: 'roles',
     })
 
-    const currentlyWorkingHereValue = watch(`roles.${0}.currentlyWorkingHere`)
-    console.log('currentlyWorkingHereValue[0]', currentlyWorkingHereValue)
-
     const fieldSections = fields.map((field, idx) => {
         const fieldErrors = errors.roles?.[idx]
         const { id } = field
         const currentlyWorkingHereValue = watch(`roles.${idx}.currentlyWorkingHere`)
-        
         return (
             <div key={id}>
                 <div className="mb-4">
@@ -134,11 +129,15 @@ export const JobApplicationPastExperienceForm = (props: JobApplicationPastExperi
                     
                 </div>
                 <div className="flex mb-4 items-center">
-                    <RHFCheckbox 
-                        name={`roles.${idx}.currentlyWorkingHere`}
-                        control={control}
-                        label="Currently working here"
+                    <input
+                        type="checkbox"
+                        id={`roles.${idx}.currentlyWorkingHere`}
+                        className="form-checkbox h-5 w-5 text-blue-500"
+                        {...register(`roles.${idx}.currentlyWorkingHere`)}
                     />
+                    <label htmlFor={`roles.${idx}.currentlyWorkingHere`} className="ml-2 block text-gray-700 font-bold">
+                        Currently working here
+                    </label>
                 </div>
             </div>
         )
